@@ -11,8 +11,16 @@ class BookingController{
 
     async sendMessageToQueue(req,res){
         const channel = await createChannel();
-        const data = {message: 'Sucess'};
-        publishMessage(channel, REMINDER_BINDING_KEY, JSON.stringify(data));
+        const payload = {
+            data: {
+                subject: 'This is notification from queue',
+                content: 'Some queue will subscribe this',
+                recepientEmail: 'reminderservice10@gmail.com',
+                notificationTime: '2024-05-25T10:00:00'
+            },
+            service: 'CREATE_TICKET'
+        }
+        publishMessage(channel, REMINDER_BINDING_KEY, JSON.stringify(payload));
         return res.status(200).json({
             message: 'Sucessfully publish the event'
         });
